@@ -13,4 +13,6 @@ heights = channel_distances['heights']
 distances = channel_distances['distances']
 cumulative_distances = channel_distances['cumulative_distances']
 
-print(distances)
+height_distance = loader.interpolate_heights_by_distance(channel_distances)
+
+print(height_distance)

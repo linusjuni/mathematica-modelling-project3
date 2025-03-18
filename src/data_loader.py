@@ -17,10 +17,6 @@ class DataLoader:
     def load_to_np(self, input_data: str, delimiter='') -> np.ndarray:
         """
         Load data from a file into a numpy array.
-        
-        Args:
-            input_data: Name of the data file
-            delimiter: Delimiter used in the file (default: ',')
         """
         current_dir = os.getcwd()
         try:
@@ -39,12 +35,10 @@ class DataLoader:
         cumulative_distances = np.zeros(len(latitudes))
         
         for i in range(1, len(latitudes)):
-            # Previous point (lat, lon)
-            point1 = (latitudes[i-1], longitudes[i-1])
-            # Current point (lat, lon)
-            point2 = (latitudes[i], longitudes[i])
+            prev_point = (latitudes[i-1], longitudes[i-1])
+            curr_point = (latitudes[i], longitudes[i])
             
-            distance_km = haversine(point1, point2)
+            distance_km = haversine(prev_point, curr_point)
             distance_m = distance_km * 1000
             
             distances[i] = distance_m
@@ -56,4 +50,23 @@ class DataLoader:
             'heights': heights,
             'distances': distances,
             'cumulative_distances': cumulative_distances
+        }
+    
+    def interpolate_heights_by_distance(self, data_dict, distance_interval=250):
+        """
+        Interpolate heights at regular distance intervals.
+        """
+
+        original_distances = data_dict['cumulative_distances']
+        original_heights = data_dict['heights']
+        
+        total_distance = original_distances[-1]
+        
+        new_distances = np.arange(0, total_distance + distance_interval, distance_interval)
+        
+        new_heights = np.interp(new_distances, original_distances, original_heights)
+        
+        return {
+            'distances': new_distances,
+            'heights': new_heights
         }
