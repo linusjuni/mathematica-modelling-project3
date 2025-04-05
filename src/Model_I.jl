@@ -28,5 +28,3 @@ function solveIP(H, K)
     R = JuMP.value.(R)
     return x, R
 end
-
-x, R = solveIP(H,K)
