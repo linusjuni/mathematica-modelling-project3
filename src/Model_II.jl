@@ -35,5 +35,3 @@ function solveIP2(H, K)
     return x, R
 end
 
-
-x, R = solveIP2(H,K)
