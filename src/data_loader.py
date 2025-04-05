@@ -56,7 +56,6 @@ class DataLoader:
         """
         Interpolate heights at regular distance intervals.
         """
-
         original_distances = data_dict['cumulative_distances']
         original_heights = data_dict['heights']
         
