@@ -8,14 +8,11 @@ function solveIP2(H, K)
     A = constructA(H,K)
 
     @variable(myModel, x[1:h], Bin )
-    @variable(myModel, U[1:h] >= 0 )
     @variable(myModel, R[1:h] >= 0 )
 
-    @objective(myModel, Min, sum(U[j] for j=1:h) )
+    @objective(myModel, Min, sum(abs(10 + H[j] - R[j]) for j=1:h) )
 
 
-    @constraint(myModel, [j=1:h], 10 + H[j] - R[j] <= U[j])
-    @constraint(myModel, [j=1:h], 10 + H[j] - R[j] >= -U[j])
 
     @constraint(myModel, [j=1:h],R[j] >= H[j] + 10 )
     @constraint(myModel, [i=1:h],R[i] == sum(A[i,j]*x[j] for j=1:h) )

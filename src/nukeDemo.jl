@@ -26,8 +26,9 @@ function constructA(H,K)
     return A
 end
 
-include("Model_I.jl")
-# include("Model_II.jl")
+# include("Model_I.jl")
+include("Model_II.jl")
+# include("Model_II_v2.jl")
 
-x, R = solveIP(H,K)
-# x, R = solveIP2(H,K)
+# x, R = solveIP(H,K)
+x, R = solveIP2(H,K)
