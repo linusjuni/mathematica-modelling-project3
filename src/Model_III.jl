@@ -1,5 +1,5 @@
 # Solve second one
-function solveIP2(H, K)
+function solveIP3(H, K)
     h = length(H)
     myModel = Model(Cbc.Optimizer)
     # If your want ot use GLPK instead use:
@@ -17,6 +17,8 @@ function solveIP2(H, K)
     @constraint(myModel, [j=1:h], 10 + H[j] - R[j] <= U[j])
     @constraint(myModel, [j=1:h], 10 + H[j] - R[j] >= -U[j])
 
+    @constraint(myModel, [j=1:h-1], x[j] + x[j + 1] <= 1)
+
     @constraint(myModel, [j=1:h],R[j] >= H[j] + 10 )
     @constraint(myModel, [i=1:h],R[i] == sum(A[i,j]*x[j] for j=1:h) )
 
@@ -33,4 +35,5 @@ function solveIP2(H, K)
     R = JuMP.value.(R)
     return x, R
 end
+
 
